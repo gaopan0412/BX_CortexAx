@@ -1,0 +1,36 @@
+#this file config bx tansport software 
+
+#destination ip address and  port for show solution
+dstip=81.70.3.131
+dstport=8900
+
+#mode selection solution by terminal device or server
+mode=terminal
+
+#base station ip address and port, if  solution by server this not need config
+#basetype=Ntrip  #if base is ntrip need config account passwd  ipaddress port mountpoint 
+#account=
+#passwd=
+#mountpoint=
+
+#tcp protocal just config ipaddress and port
+basetype=Tcp
+baseip=81.70.3.131
+baseport=8520
+
+
+#save raw data
+saverawdata=not
+
+#the solution format
+format=nmea
+
+#process log file path
+logpath=./
+
+#for raw data store
+rawpath=./raw/
+
+#solutionmode  solution in server or local
+localsolution=yes 
+

@@ -1,0 +1,63 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ARGSLEN	init.h	22;"	d
+BaseStationLinkHandle	main.c	/^void* BaseStationLinkHandle(void* arg)$/;"	f
+Debug	init.c	/^int Debug(uint8_t level, char* info)$/;"	f
+Debugs	init.c	/^int Debugs(uint8_t level, char* fmt, ...)$/;"	f
+DstLinkHandle	main.c	/^void* DstLinkHandle(void* arg)$/;"	f
+ERR	init.h	/^typedef enum _RetType { ERR = -1, SUCCESS = 0 } RetType;$/;"	e	enum:_RetType
+FALSE	main.c	15;"	d	file:
+InitArgs_t	init.h	/^}InitArgs_t;$/;"	t	typeref:struct:_InitArgs_t
+LEVEL0	init.h	12;"	d
+LEVEL1	init.h	13;"	d
+LEVEL2	init.h	14;"	d
+LEVEL3	init.h	15;"	d
+LEVEL4	init.h	16;"	d
+LINE_MAX	init.c	9;"	d	file:
+LOGLEVEL	init.h	19;"	d
+MAXLINE	test_c.c	9;"	d	file:
+RetType	init.h	/^typedef enum _RetType { ERR = -1, SUCCESS = 0 } RetType;$/;"	t	typeref:enum:_RetType
+SUCCESS	init.h	/^typedef enum _RetType { ERR = -1, SUCCESS = 0 } RetType;$/;"	e	enum:_RetType
+TRUE	main.c	14;"	d	file:
+Tcp_ConnectBase	client.c	/^int Tcp_ConnectBase(InitArgs_t* paddr, int sockfd)$/;"	f
+Tcp_ConnectDst	client.c	/^int Tcp_ConnectDst(InitArgs_t* paddr, int sockfd)$/;"	f
+_InitArgs_t	init.h	/^typedef struct _InitArgs_t{ $/;"	s
+_RetType	init.h	/^typedef enum _RetType { ERR = -1, SUCCESS = 0 } RetType;$/;"	g
+__CLIETN_H	client.h	10;"	d
+__INIT_H	init.h	5;"	d
+basefd	init.h	/^		int basefd;$/;"	m	struct:_InitArgs_t
+baseip	init.h	/^		char baseip[ARGSLEN];   \/*base station ipdadress*\/$/;"	m	struct:_InitArgs_t
+baseport	init.h	/^		char baseport[ARGSLEN]; \/*base station port*\/$/;"	m	struct:_InitArgs_t
+cc	Makefile	/^cc = gcc$/;"	m
+close_logfile	init.c	/^void close_logfile(void)$/;"	f
+debug	debug.c	/^int debug(char* fmt, ...)$/;"	f
+dstfd	init.h	/^		int dstfd;$/;"	m	struct:_InitArgs_t
+dstip	init.h	/^		char dstip[ARGSLEN];    \/*destionaton ipaddess*\/  $/;"	m	struct:_InitArgs_t
+dstport	init.h	/^	   	char dstport[ARGSLEN];  \/*destionation port*\/ $/;"	m	struct:_InitArgs_t
+format	init.h	/^		char format[ARGSLEN];   \/*out put message formatnmea or gins*\/ $/;"	m	struct:_InitArgs_t
+get_configargs	init.c	/^static RetType get_configargs(const char* str, char* args)$/;"	f	file:
+get_initargs	init.c	/^RetType get_initargs(FILE* pcfgfile, InitArgs_t* arg)$/;"	f
+get_mem	debug.c	/^char* get_mem(int n)$/;"	f
+get_systime	main.c	/^static int get_systime(void)$/;"	f	file:
+glogfilep	init.c	/^FILE* glogfilep = NULL;$/;"	v
+log	debug.c	/^FILE* log = NULL;$/;"	v
+logpath	init.h	/^		char logpath[ARGSLEN];	\/*this is routine log*\/$/;"	m	struct:_InitArgs_t
+main	debug.c	/^int main(void)$/;"	f
+main	main.c	/^int main(int argc, char* argv[])$/;"	f
+main	test_c.c	/^int main(int argc, char** argv)  $/;"	f
+mode	init.h	/^		char mode[ARGSLEN];		\/*solution by terminal orserver*\/ $/;"	m	struct:_InitArgs_t
+parse_initargs	init.c	/^static RetType parse_initargs(const char* buf, int len, InitArgs_t* arg)$/;"	f	file:
+pconfig	main.c	/^char pconfig[] = ".\/config.txt";$/;"	v
+rawpath	init.h	/^		char rawpath[ARGSLEN];	\/*for raw data store*\/$/;"	m	struct:_InitArgs_t
+save	init.h	/^		char save[ARGSLEN];		\/*save rawdata or not*\/	$/;"	m	struct:_InitArgs_t
+set_default_args	init.c	/^static RetType set_default_args(InitArgs_t* args)$/;"	f	file:
+u16	init.h	/^typedef uint16_t u16;$/;"	t
+u32	init.h	/^typedef uint32_t u32;$/;"	t
+u8	init.h	/^typedef uint8_t u8;$/;"	t
+uint16_t	init.h	/^typedef unsigned short uint16_t;$/;"	t
+uint32_t	init.h	/^typedef unsigned int uint32_t;$/;"	t
+uint8_t	init.h	/^typedef unsigned char uint8_t;$/;"	t

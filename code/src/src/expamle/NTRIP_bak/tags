@@ -1,0 +1,107 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+CRTSCTS	ntrip.c	9;"	d	file:
+MAXSTATMSG	ntrip.c	25;"	d	file:
+MAXSTRMSG	ntrip.h	13;"	d
+MAXSTRPATH	ntrip.h	12;"	d
+NTRIP_AGENT	ntrip.c	26;"	d	file:
+NTRIP_CLI_PORT	ntrip.c	30;"	d	file:
+NTRIP_H	ntrip.h	2;"	d
+NTRIP_MAXRSP	ntrip.c	21;"	d	file:
+NTRIP_MAXSTR	ntrip.c	22;"	d	file:
+NTRIP_RSP_ERROR	ntrip.c	23;"	d	file:
+NTRIP_RSP_HTTP	ntrip.c	29;"	d	file:
+NTRIP_RSP_OK_CLI	ntrip.c	27;"	d	file:
+NTRIP_RSP_OK_SVR	ntrip.c	24;"	d	file:
+NTRIP_RSP_SRCTBL	ntrip.c	28;"	d	file:
+NTRIP_SVR_PORT	ntrip.c	31;"	d	file:
+STR_MODE_R	ntrip.h	14;"	d
+STR_MODE_RW	ntrip.h	16;"	d
+STR_MODE_W	ntrip.h	15;"	d
+STR_NTRIPCLI	ntrip.h	18;"	d
+addr	ntrip.c	/^    struct sockaddr_in addr; \/* address resolved *\/$/;"	m	struct:__anon2	typeref:struct:__anon2::sockaddr_in	file:
+buff	ntrip.c	/^    unsigned char buff[NTRIP_MAXRSP]; \/* response buffer *\/$/;"	m	struct:__anon4	file:
+buffsize	ntrip.c	/^static int buffsize =32768; \/* receive\/send buffer size (bytes) *\/$/;"	v	file:
+closesocket	ntrip.c	20;"	d	file:
+closetcpcli	ntrip.c	/^static void closetcpcli(tcpcli_t *tcpcli)$/;"	f	file:
+connect_nb	ntrip.c	/^static int connect_nb(socket_t sock, struct sockaddr *addr, socklen_t len)$/;"	f	file:
+consock	ntrip.c	/^static int consock(tcpcli_t *tcpcli, char *msg)$/;"	f	file:
+decodetcppath	ntrip.c	/^static void decodetcppath(const char *path, char *addr, char *port, char *user,$/;"	f	file:
+discontcp	ntrip.c	/^static void discontcp(tcp_t *tcp, int tcon){$/;"	f	file:
+encbase64	ntrip.c	/^static int encbase64(char *str, const unsigned char *byte, int n)$/;"	f	file:
+errsock	ntrip.c	/^static int errsock(void) {return errno;}$/;"	f	file:
+gentcp	ntrip.c	/^static int gentcp(tcp_t *tcp, int type, char *msg)$/;"	f	file:
+inb	ntrip.h	/^    unsigned int inb,inr;   \/* input bytes\/rate *\/$/;"	m	struct:__anon1
+inbt	ntrip.h	/^    unsigned int inbt,outbt; \/* input\/output bytes at tick *\/$/;"	m	struct:__anon1
+initlock	ntrip.c	34;"	d	file:
+inr	ntrip.h	/^    unsigned int inb,inr;   \/* input bytes\/rate *\/$/;"	m	struct:__anon1
+lock	ntrip.c	35;"	d	file:
+lock	ntrip.h	/^    lock_t lock;        \/* lock flag *\/$/;"	m	struct:__anon1
+lock_t	ntrip.c	33;"	d	file:
+lock_t	ntrip.h	11;"	d
+main	ntrip_main.c	/^int main()$/;"	f
+mntpnt	ntrip.c	/^    char mntpnt[256];       \/* mountpoint *\/$/;"	m	struct:__anon4	file:
+mode	ntrip.h	/^    int mode;           \/* mode (STR_MODE_?) *\/$/;"	m	struct:__anon1
+msg	ntrip.h	/^    char msg [MAXSTRMSG];  \/* stream message *\/$/;"	m	struct:__anon1
+nb	ntrip.c	/^    int nb;                 \/* response buffer size *\/$/;"	m	struct:__anon4	file:
+ntrip_t	ntrip.c	/^} ntrip_t;$/;"	t	typeref:struct:__anon4	file:
+openntrip	ntrip.c	/^static ntrip_t *openntrip(const char *path, int type, char *msg)$/;"	f	file:
+opentcpcli	ntrip.c	/^static tcpcli_t *opentcpcli(const char *path, char *msg)$/;"	f	file:
+outb	ntrip.h	/^    unsigned int outb,outr; \/* output bytes\/rate *\/$/;"	m	struct:__anon1
+outbt	ntrip.h	/^    unsigned int inbt,outbt; \/* input\/output bytes at tick *\/$/;"	m	struct:__anon1
+outr	ntrip.h	/^    unsigned int outb,outr; \/* output bytes\/rate *\/$/;"	m	struct:__anon1
+passwd	ntrip.c	/^    char passwd[256];       \/* password *\/$/;"	m	struct:__anon4	file:
+path	ntrip.h	/^    char path[MAXSTRPATH]; \/* stream path *\/$/;"	m	struct:__anon1
+port	ntrip.c	/^    int port;               \/* port *\/$/;"	m	struct:__anon2	file:
+port	ntrip.h	/^    void *port;         \/* type dependent port control struct *\/$/;"	m	struct:__anon1
+proxyaddr	ntrip.c	/^static char proxyaddr[256]=""; \/* http\/ntrip\/ftp proxy address *\/$/;"	v	file:
+readntrip	ntrip.c	/^static int readntrip(ntrip_t *ntrip, unsigned char *buff, int n, char *msg)$/;"	f	file:
+readtcpcli	ntrip.c	/^static int readtcpcli(tcpcli_t *tcpcli, unsigned char *buff, int n, char *msg)$/;"	f	file:
+recv_nb	ntrip.c	/^static int recv_nb(socket_t sock, unsigned char *buff, int n)$/;"	f	file:
+reqntrip_c	ntrip.c	/^static int reqntrip_c(ntrip_t *ntrip, char *msg)$/;"	f	file:
+reqntrip_s	ntrip.c	/^static int reqntrip_s(ntrip_t *ntrip, char *msg)$/;"	f	file:
+rspntrip_c	ntrip.c	/^static int rspntrip_c(ntrip_t *ntrip, char *msg)$/;"	f	file:
+rspntrip_s	ntrip.c	/^static int rspntrip_s(ntrip_t *ntrip, char *msg)$/;"	f	file:
+saddr	ntrip.c	/^    char saddr[256];        \/* address string *\/$/;"	m	struct:__anon2	file:
+send_nb	ntrip.c	/^static int send_nb(socket_t sock, unsigned char *buff, int n)$/;"	f	file:
+setsock	ntrip.c	/^static int setsock(socket_t sock, char *msg)$/;"	f	file:
+sock	ntrip.c	/^    socket_t sock;          \/* socket descriptor *\/$/;"	m	struct:__anon2	file:
+socket_t	ntrip.c	19;"	d	file:
+state	ntrip.c	/^    int state;              \/* state (0:close,1:wait,2:connect) *\/$/;"	m	struct:__anon2	file:
+state	ntrip.c	/^    int state;              \/* state (0:close,1:wait,2:connect) *\/$/;"	m	struct:__anon4	file:
+state	ntrip.h	/^    int state;          \/* state (-1:error,0:close,1:open) *\/$/;"	m	struct:__anon1
+str	ntrip.c	/^    char str[NTRIP_MAXSTR]; \/* mountpoint string for server *\/$/;"	m	struct:__anon4	file:
+stream_t	ntrip.h	/^} stream_t;$/;"	t	typeref:struct:__anon1
+strinit	ntrip.c	/^void strinit(stream_t *stream)$/;"	f
+strlock	ntrip.c	/^static void strlock(stream_t *stream) { lock(&stream->lock); }$/;"	f	file:
+stropen	ntrip.c	/^int stropen(stream_t *stream, int type, int mode, const char *path)$/;"	f
+strread	ntrip.c	/^extern int strread(stream_t *stream,unsigned char *buff,int n){$/;"	f
+strunlock	ntrip.c	/^static void strunlock(stream_t *stream) { unlock(&stream->lock); }$/;"	f	file:
+svr	ntrip.c	/^    tcp_t svr;              \/* tcp server control *\/$/;"	m	struct:__anon3	file:
+tact	ntrip.c	/^    unsigned int tact;      \/* data active tick *\/$/;"	m	struct:__anon2	file:
+tact	ntrip.h	/^    unsigned int tact;  \/* active tick *\/$/;"	m	struct:__anon1
+tcon	ntrip.c	/^    int tcon;               \/* reconnect time (ms) (-1:never,0:now) *\/$/;"	m	struct:__anon2	file:
+tcp	ntrip.c	/^    tcpcli_t *tcp;          \/* tcp client *\/$/;"	m	struct:__anon4	file:
+tcp_t	ntrip.c	/^} tcp_t;$/;"	t	typeref:struct:__anon2	file:
+tcpcli_t	ntrip.c	/^} tcpcli_t;$/;"	t	typeref:struct:__anon3	file:
+tdis	ntrip.c	/^    unsigned int tdis;      \/* disconnect tick *\/$/;"	m	struct:__anon2	file:
+thread_t	ntrip.c	32;"	d	file:
+tick_i	ntrip.h	/^    unsigned int tick_i; \/* input tick tick *\/$/;"	m	struct:__anon1
+tick_o	ntrip.h	/^    unsigned int tick_o; \/* output tick *\/$/;"	m	struct:__anon1
+tickget	ntrip.c	/^extern unsigned int tickget(void)$/;"	f
+ticonnect	ntrip.c	/^static int ticonnect=10000; \/* interval to re-connect (ms) *\/$/;"	v	file:
+tirecon	ntrip.c	/^    int tirecon;            \/* reconnect interval (ms) (0:no reconnect) *\/$/;"	m	struct:__anon3	file:
+toinact	ntrip.c	/^    int toinact;            \/* inactive timeout (ms) (0:no timeout) *\/$/;"	m	struct:__anon3	file:
+toinact	ntrip.c	/^static int toinact  =10000; \/* inactive timeout (ms) *\/$/;"	v	file:
+type	ntrip.c	/^    int type;               \/* type (0:server,1:client) *\/$/;"	m	struct:__anon4	file:
+type	ntrip.h	/^    int type;           \/* type (STR_???) *\/$/;"	m	struct:__anon1
+unlock	ntrip.c	36;"	d	file:
+url	ntrip.c	/^    char url[256];          \/* url for proxy *\/$/;"	m	struct:__anon4	file:
+user	ntrip.c	/^    char user[256];         \/* user *\/$/;"	m	struct:__anon4	file:
+waitntrip	ntrip.c	/^static int waitntrip(ntrip_t *ntrip, char *msg)$/;"	f	file:
+waittcpcli	ntrip.c	/^static int waittcpcli(tcpcli_t *tcpcli, char *msg)$/;"	f	file:
+writetcpcli	ntrip.c	/^static int writetcpcli(tcpcli_t *tcpcli, unsigned char *buff, int n, char *msg)$/;"	f	file:

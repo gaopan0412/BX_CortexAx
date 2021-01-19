@@ -1,0 +1,17 @@
+#this file config bx tansport software 
+
+#destination ip address and  port for show solution
+dst=182.92.241.63:0000
+
+#mode selection solution by terminal device or server
+mode=terminal
+
+#base station ip address and port, if  solution by server this not need config
+basestation=182.92.241.63:2222
+
+#save raw data
+saverawdata=not
+
+#the solution format
+format=nmea
+
