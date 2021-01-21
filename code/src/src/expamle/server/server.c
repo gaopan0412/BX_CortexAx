@@ -115,6 +115,8 @@ int main(int argc, char* argv[])
 
 	while(1)
 	{
+		/*accept is block function, onece client connect block this line*/
+		printf("----> new client\n");
 		if (-1 == (connfd = accept(listenfd, (SA*)&peeraddr, &peerlen))) 
 		{
 			printf("[accept] failed!\n");
