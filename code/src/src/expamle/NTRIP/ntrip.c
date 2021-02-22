@@ -575,6 +575,8 @@ static ntrip_t *openntrip(const char *path, int type, char *msg)
         sprintf(ntrip->url,"http://%s",tpath);
         strcpy(tpath,proxyaddr);
     }
+
+	printf("%s", tpath);
     /* open tcp client stream */
     if (!(ntrip->tcp=opentcpcli(tpath,msg))) {
         free(ntrip);
