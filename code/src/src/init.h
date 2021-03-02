@@ -7,6 +7,9 @@
 /*for file pointer*/
 #include <stdio.h>
 
+#define TRUE 1
+#define FALSE 0
+
 
 /*routine log level*/
 #define LEVEL0   0   /*no log*/
@@ -29,7 +32,7 @@ typedef struct _InitArgs_t{
 		char save[ARGSLEN];		/*save rawdata or not*/	
 		char format[ARGSLEN];   /*out put message formatnmea or gins*/ 
 		char dstip[ARGSLEN];    /*destionaton ipaddess*/  
-	   	char dstport[ARGSLEN];  /*destionation port*/ 
+	  char dstport[ARGSLEN];  /*destionation port*/ 
 		char baseip[ARGSLEN];   /*base station ipdadress*/
 		char baseport[ARGSLEN]; /*base station port*/
 		char logpath[ARGSLEN];	/*this is routine log*/

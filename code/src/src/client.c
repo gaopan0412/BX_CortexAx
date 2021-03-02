@@ -1,7 +1,8 @@
-/*
- *File - client.c 
- *Description: for implement client connection
- *Author: gaopan
+/**
+ * File - client.c 
+ * Description: for implement client connection
+ * Author: gaopan
+ *
  */
 
 #include <unistd.h>
@@ -13,124 +14,221 @@
 #include <strings.h>
 #include <string.h>
 #include <ctype.h>
+#include <pthread.h>
 #include "init.h"
+#include "client.h"
 
 /*
- * Tcp_ConnectDst 
- * paddr   I  ipv4 addr and port 
- * sockfd  O  socket file description
- * ret : SUCCESS  0
- * 		 FAILED  -1
+ * DstDataTask 
+ * args: none
+ * ret : none
+ * brif: solution data destination server link thread
  */
-
-int Tcp_ConnectDst(InitArgs_t* paddr, int sockfd)
+void DstDataTask(void *args)
 {
-	int ret = 0;
-	int addlenth = strlen(paddr->dstip);
-	unsigned int port = atoi(paddr->dstport);
-	char addr[32]={0};
 
-	memcpy(addr, paddr->dstip, addlenth);
+	int sockfd;
+	struct sockaddr_in ipaddr;
+	char *buffer = (char *)malloc(sizeof(char) * MAXLEN);
+	InitArgs_t *initarg = (InitArgs_t *)args;
+	int portnum = atoi(initarg->dstport);
+	char gngga[] = "$GNGGA,072844.000,3945.66037,N,11619.73066,E,1,26,0.55,40.5,M,-8.3,M,,*59\r\n";
 
-	if (!paddr) {
-		Debugs(LOGLEVEL, "[Error]: Dst addr and port is null\r\n");
-		return -1;
-	}	
+	Debugs(LOGLEVEL, "dst port:%d\n", portnum);
 
-	struct sockaddr_in tcpaddr;
-	tcpaddr.sin_family = AF_INET;
-	paddr->dstfd = socket(AF_INET, SOCK_STREAM, 0);
-	if (sockfd < 0 ) {
-		Debugs(LOGLEVEL, "[Error]:Dst socket create failed!\r\n");
+	if (!buffer)
+	{
+		Debugs(LOGLEVEL, "%s", "memory malloc failed!\n");
+		exit(-1);
+	}
+	else
+	{
+		Debugs(LOGLEVEL, "malloc success!\n");
+		memset(buffer, 0, sizeof(char) * MAXLEN);
 	}
 
-	//Debug(LEVEL3, "ip:%s  port:%u\r\n", addr, port);
-   
-//	bzero(&tcpaddr, sizeof(tcpaddr));
-	tcpaddr.sin_port = htons(port);
-    ret = inet_pton(AF_INET, addr, &tcpaddr.sin_addr.s_addr);
-	if ( ret < 0) 
-		Debugs(LOGLEVEL, "inet_pton error\r\n");
-	
-	ret = connect(paddr->dstfd, (struct sockaddr*)&tcpaddr, sizeof(tcpaddr));
-	if (ret < 0) {
-		Debugs(LOGLEVEL, "[Error]:Dst connect failed!\r\n");
-	} else {
-		Debugs(LOGLEVEL, "Dst connect success\r\n");
+	pthread_detach(pthread_self());
+
+	if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+	{
+		Debugs(LOGLEVEL, "creat socket error!\n");
+		exit(-1);
+	}
+	else
+	{
+		Debugs(LOGLEVEL, "creat socket success!\n");
 	}
 
-	return 0;
+	bzero(&ipaddr, sizeof(struct sockaddr_in));
+	ipaddr.sin_family = AF_INET;
+	ipaddr.sin_port = htons(portnum);
+	ipaddr.sin_addr.s_addr = inet_addr(initarg->dstip);
+	//Debugs("TenceYun test\n");
+
+	if (connect(sockfd, (struct sockaddr *)(&ipaddr), sizeof(struct sockaddr)) < 0)
+	{
+		Debugs(LOGLEVEL, "connect error\n");
+		exit(-1);
+	}
+	else
+	{
+		Debugs(LOGLEVEL, "open server success! fd:%d\n", sockfd);
+	}
+
+	while (True)
+	{
+		if (send(sockfd, gngga, strlen(gngga), MSG_NOSIGNAL) < 0)
+		{
+
+			Debugs(LOGLEVEL, "connect failed!\n");
+
+			if (!close(sockfd))
+				sockfd = socket(AF_INET, SOCK_STREAM, 0);
+			//Todo: close failed
+			while (connect(sockfd, (struct sockaddr *)(&ipaddr), sizeof(struct sockaddr)) < 0)
+			{
+				Debugs(LOGLEVEL, "send reconnect server...\n");
+				usleep(200000);
+			}
+			Debugs(LOGLEVEL, "send reconnect success!\n");
+			continue;
+		}
+
+		sleep(1);
+		int len = 0;
+		if ((len = recv(sockfd, buffer, MAXLEN, MSG_NOSIGNAL)) < 0)
+		{
+			if (!close(sockfd))
+				sockfd = socket(AF_INET, SOCK_STREAM, 0);
+			//Todo: close failed!
+			Debugs(LOGLEVEL, "recv reconnect failed!\n");
+			while (connect(sockfd, (struct sockaddr *)(&ipaddr), sizeof(struct sockaddr)) < 0)
+			{
+				Debugs(LOGLEVEL, "recv reconnect server...\n");
+				usleep(200000);
+			}
+
+			Debugs(LOGLEVEL, "recv reconnect success!\n");
+		}
+		else if (len > 0)
+		{
+			Debugs(LOGLEVEL, "len:%d %s", len, buffer);
+		}
+		else
+		{
+		};
+	}
+
+	close(sockfd);
+	free(buffer);
+	//thread_flag = 0;//meas thread exit
+	pthread_exit(args);
 }
 
 /*
- * Tcp_ConnectBase 
- * paddr   I  ipv4 addr and port 
- * sockfd  O  socket file description
- * ret : SUCCESS  0
- * 		 FAILED  -1
+ *  BaseDataTask
+ *  args: none
+ * 	ret : none
+ * 	brif: Base station data process thread 
  */
-int Tcp_ConnectBase(InitArgs_t* paddr, int sockfd)
+void BaseDataTask(void *args)
 {
-	int ret = 0;
-	unsigned int port = atoi(paddr->baseport);
-	int addlenth = strlen(paddr->baseip);
-	char addr[32] ={0};
-	memcpy(addr, paddr->baseip, addlenth);
 
-	
-	if (!paddr) {
-		Debugs(LOGLEVEL, "[Error]:Base addr and port is null\r\n");
-		return -1;
-	}	
+	int sockfd;
+	struct sockaddr_in ipaddr;
+	char *buffer = (char *)malloc(sizeof(char) * MAXLEN);
+	InitArgs_t *initarg = (InitArgs_t *)args;
+	int portnum = atoi(initarg->baseport);
+	char gngga[] = "$GNGGA,072844.000,3945.66037,N,11619.73066,E,1,26,0.55,40.5,M,-8.3,M,,*59\r\n";
 
-	struct sockaddr_in tcpaddr;
-	tcpaddr.sin_family = AF_INET;
-	//sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	paddr->basefd = socket(AF_INET, SOCK_STREAM, 0);
-	if (sockfd < 0 ) {
-		Debugs(LOGLEVEL, "[Error]:Base socket create failed!\r\n");
+	Debugs(LOGLEVEL, "dst port:%d\n", portnum);
+
+	if (!buffer)
+	{
+		Debugs(LOGLEVEL, "memory malloc failed!\n");
+		exit(-1);
+	}
+	else
+	{
+		Debugs(LOGLEVEL, "malloc success!\n");
+		memset(buffer, 0, sizeof(char) * MAXLEN);
 	}
 
-	//Debug(LEVEL3, "ip:%s  port:%u\r\n", addr, port);
-   
-	//bzero(&tcpaddr, sizeof(tcpaddr));
-	tcpaddr.sin_port = htons(port);
-    ret = inet_pton(AF_INET, addr, &tcpaddr.sin_addr.s_addr);
-	if ( ret < 0) {
-		Debugs(LOGLEVEL, "inet_pton error\r\n");
-		return -1;
+	pthread_detach(pthread_self());
+
+	if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+	{
+		Debugs(LOGLEVEL, "creat socket error!\n");
+		exit(-1);
 	}
-	
-
-	ret = connect(paddr->basefd, (struct sockaddr*)&tcpaddr, sizeof(tcpaddr));
-
-	if (ret < 0) {
-		Debugs(LOGLEVEL, "[Error]:Base connect failed!\r\n");
-		return -1;
-	} else {
-		Debugs(LOGLEVEL, "Base connect success\r\n");
+	else
+	{
+		Debugs(LOGLEVEL, "creat socket success!\n");
 	}
 
-	return 0;
+	bzero(&ipaddr, sizeof(struct sockaddr_in));
+	ipaddr.sin_family = AF_INET;
+	ipaddr.sin_port = htons(portnum);
+	ipaddr.sin_addr.s_addr = inet_addr(initarg->baseip);
+	//Debugs("TenceYun test\n");
+
+	if (connect(sockfd, (struct sockaddr *)(&ipaddr), sizeof(struct sockaddr)) < 0)
+	{
+		Debugs(LOGLEVEL, "connect error\n");
+		exit(-1);
+	}
+	else
+	{
+		Debugs(LOGLEVEL, "open server success! fd:%d\n", sockfd);
+	}
+
+	while (True)
+	{
+		if (send(sockfd, gngga, strlen(gngga), MSG_NOSIGNAL) < 0)
+		{
+
+			Debugs(LOGLEVEL, "connect failed!\n");
+
+			if (!close(sockfd))
+				sockfd = socket(AF_INET, SOCK_STREAM, 0);
+			//Todo: close failed
+			while (connect(sockfd, (struct sockaddr *)(&ipaddr), sizeof(struct sockaddr)) < 0)
+			{
+				Debugs(LOGLEVEL, "send reconnect server...\n");
+				usleep(200000);
+			}
+			Debugs(LOGLEVEL, "send reconnect success!\n");
+			continue;
+		}
+
+		sleep(1);
+		int len = 0;
+		if ((len = recv(sockfd, buffer, MAXLEN, MSG_NOSIGNAL)) < 0)
+		{
+			if (!close(sockfd))
+				sockfd = socket(AF_INET, SOCK_STREAM, 0);
+			//Todo: close failed!
+			Debugs(LOGLEVEL, "recv reconnect failed!\n");
+			while (connect(sockfd, (struct sockaddr *)(&ipaddr), sizeof(struct sockaddr)) < 0)
+			{
+				Debugs(LOGLEVEL, "recv reconnect server...\n");
+				usleep(200000);
+			}
+
+			Debugs(LOGLEVEL, "recv reconnect success!\n");
+		}
+		else if (len > 0)
+		{
+			Debugs(LOGLEVEL, "len:%d %s", len, buffer);
+		}
+		else
+		{
+			//means send success
+		};
+	}
+
+	close(sockfd);
+	free(buffer);
+	//thread_flag = 0;//meas thread exit
+	pthread_exit(args);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

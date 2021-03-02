@@ -1,15 +1,16 @@
 #include "uart.h"
+#include "init.h"
 
 /*
 Func: Uart_Init
-Description: ´®¿Ú³õÊ¼»¯
+Description: ï¿½ï¿½ï¿½Ú³ï¿½Ê¼ï¿½ï¿½
 Input:
-			   fd:		´®¿ÚÎÄ¼şÃèÊö·û
-			speed:      ´®¿ÚËÙ¶È
-		flow_ctrl:		Êı¾İÁ÷¿ØÖÆ
-		 databits:		Êı¾İÎ»   È¡ÖµÎª 7 »òÕß8
-		 stopbits:		Í£Ö¹Î»   È¡ÖµÎª 1 »òÕß2
-		   parity:		Ğ§ÑéÀàĞÍ È¡ÖµÎªN,E,O,,S
+			   fd:		ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			speed:      ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+		flow_ctrl:		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		 databits:		ï¿½ï¿½ï¿½ï¿½Î»   È¡ÖµÎª 7 ï¿½ï¿½ï¿½ï¿½8
+		 stopbits:		Í£Ö¹Î»   È¡ÖµÎª 1 ï¿½ï¿½ï¿½ï¿½2
+		   parity:		Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¡ÖµÎªN,E,O,,S
 Others:
 Author: 
 */
@@ -22,7 +23,7 @@ unsigned char Uart_Init(int fd, int speed, int flow_ctrl, int databits, int stop
 
 	struct termios options;
 
-	/*tcgetattr(fd,&options)µÃµ½ÓëfdÖ¸Ïò¶ÔÏóµÄÏà¹Ø²ÎÊı£¬²¢½«ËüÃÇ±£´æÓÚoptions,¸Ãº¯Êı»¹¿ÉÒÔ²âÊÔÅäÖÃÊÇ·ñÕıÈ·£¬¸Ã´®¿ÚÊÇ·ñ¿ÉÓÃµÈ¡£Èôµ÷ÓÃ³É¹¦£¬º¯Êı·µ»ØÖµÎª0£¬Èôµ÷ÓÃÊ§°Ü£¬º¯Êı·µ»ØÖµÎª1.
+	/*tcgetattr(fd,&options)ï¿½Ãµï¿½ï¿½ï¿½fdÖ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½ï¿½ï¿½options,ï¿½Ãºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ÃµÈ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã³É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÎª0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÎª1.
 	*/
 	if (tcgetattr(fd, &options) != 0)
 	{
@@ -30,7 +31,7 @@ unsigned char Uart_Init(int fd, int speed, int flow_ctrl, int databits, int stop
 		return(FALSE);
 	}
 
-	//ÉèÖÃ´®¿ÚÊäÈë²¨ÌØÂÊºÍÊä³ö²¨ÌØÂÊ  
+	//ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë²¨ï¿½ï¿½ï¿½Êºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 	for (i = 0; i < sizeof(speed_arr) / sizeof(int); i++)
 	{
 		if (speed == name_arr[i])
@@ -40,28 +41,28 @@ unsigned char Uart_Init(int fd, int speed, int flow_ctrl, int databits, int stop
 		}
 	}
 
-	//ĞŞ¸Ä¿ØÖÆÄ£Ê½£¬±£Ö¤³ÌĞò²»»áÕ¼ÓÃ´®¿Ú  
+	//ï¿½Ş¸Ä¿ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ò²»»ï¿½Õ¼ï¿½Ã´ï¿½ï¿½ï¿½  
 	options.c_cflag |= CLOCAL;
-	//ĞŞ¸Ä¿ØÖÆÄ£Ê½£¬Ê¹µÃÄÜ¹»´Ó´®¿ÚÖĞ¶ÁÈ¡ÊäÈëÊı¾İ  
+	//ï¿½Ş¸Ä¿ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½Ü¹ï¿½ï¿½Ó´ï¿½ï¿½ï¿½ï¿½Ğ¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 	options.c_cflag |= CREAD;
 
-	//ÉèÖÃÊı¾İÁ÷¿ØÖÆ  
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 	switch (flow_ctrl)
 	{
 
-	case 0://²»Ê¹ÓÃÁ÷¿ØÖÆ  
+	case 0://ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 		options.c_cflag &= ~CRTSCTS;
 		break;
 
-	case 1://Ê¹ÓÃÓ²¼şÁ÷¿ØÖÆ  
+	case 1://Ê¹ï¿½ï¿½Ó²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 		options.c_cflag |= CRTSCTS;
 		break;
-	case 2://Ê¹ÓÃÈí¼şÁ÷¿ØÖÆ  
+	case 2://Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 		options.c_cflag |= IXON | IXOFF | IXANY;
 		break;
 	}
-	//ÉèÖÃÊı¾İÎ»  
-	//ÆÁ±ÎÆäËû±êÖ¾Î»  
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»  
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾Î»  
 	options.c_cflag &= ~CSIZE;
 	switch (databits)
 	{
@@ -81,27 +82,27 @@ unsigned char Uart_Init(int fd, int speed, int flow_ctrl, int databits, int stop
 		fprintf(stderr, "Unsupported data size\n");
 		return (FALSE);
 	}
-	//ÉèÖÃĞ£ÑéÎ»  
+	//ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½ï¿½Î»  
 	switch (parity)
 	{
 	case 'n':
-	case 'N': //ÎŞÆæÅ¼Ğ£ÑéÎ»¡£  
+	case 'N': //ï¿½ï¿½ï¿½ï¿½Å¼Ğ£ï¿½ï¿½Î»ï¿½ï¿½  
 		options.c_cflag &= ~PARENB;
 		options.c_iflag &= ~INPCK;
 		break;
 	case 'o':
-	case 'O'://ÉèÖÃÎªÆæĞ£Ñé      
+	case 'O'://ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ğ£ï¿½ï¿½      
 		options.c_cflag |= (PARODD | PARENB);
 		options.c_iflag |= INPCK;
 		break;
 	case 'e':
-	case 'E'://ÉèÖÃÎªÅ¼Ğ£Ñé    
+	case 'E'://ï¿½ï¿½ï¿½ï¿½ÎªÅ¼Ğ£ï¿½ï¿½    
 		options.c_cflag |= PARENB;
 		options.c_cflag &= ~PARODD;
 		options.c_iflag |= INPCK;
 		break;
 	case 's':
-	case 'S': //ÉèÖÃÎª¿Õ¸ñ   
+	case 'S': //ï¿½ï¿½ï¿½ï¿½Îªï¿½Õ¸ï¿½   
 		options.c_cflag &= ~PARENB;
 		options.c_cflag &= ~CSTOPB;
 		break;
@@ -109,7 +110,7 @@ unsigned char Uart_Init(int fd, int speed, int flow_ctrl, int databits, int stop
 		fprintf(stderr, "Unsupported parity\n");
 		return (FALSE);
 	}
-	// ÉèÖÃÍ£Ö¹Î»   
+	// ï¿½ï¿½ï¿½ï¿½Í£Ö¹Î»   
 	switch (stopbits)
 	{
 	case 1:
@@ -121,22 +122,22 @@ unsigned char Uart_Init(int fd, int speed, int flow_ctrl, int databits, int stop
 		return (FALSE);
 	}
 
-	//ĞŞ¸ÄÊä³öÄ£Ê½£¬Ô­Ê¼Êı¾İÊä³ö  
+	//ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 	options.c_oflag &= ~OPOST;
 
 	options.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
 	//options.c_lflag &= ~(ISIG | ICANON);  
 
-	//ÉèÖÃµÈ´ıÊ±¼äºÍ×îĞ¡½ÓÊÕ×Ö·û  
-	options.c_cc[VTIME] = 1; /* ¶ÁÈ¡Ò»¸ö×Ö·ûµÈ´ı1*(1/10)s */
-	options.c_cc[VMIN] = 1; /* ¶ÁÈ¡×Ö·ûµÄ×îÉÙ¸öÊıÎª1 */
+	//ï¿½ï¿½ï¿½ÃµÈ´ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¡ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½  
+	options.c_cc[VTIME] = 1; /* ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½È´ï¿½1*(1/10)s */
+	options.c_cc[VMIN] = 1; /* ï¿½ï¿½È¡ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½Îª1 */
 	//for recv '\r' 
 	options.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
 
-	//Èç¹û·¢ÉúÊı¾İÒç³ö£¬½ÓÊÕÊı¾İ£¬µ«ÊÇ²»ÔÙ¶ÁÈ¡ Ë¢ĞÂÊÕµ½µÄÊı¾İµ«ÊÇ²»¶Á  
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ£ï¿½ï¿½ï¿½ï¿½Ç²ï¿½ï¿½Ù¶ï¿½È¡ Ë¢ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İµï¿½ï¿½Ç²ï¿½ï¿½ï¿½  
 	tcflush(fd, TCIFLUSH);
 
-	//¼¤»îÅäÖÃ (½«ĞŞ¸ÄºóµÄtermiosÊı¾İÉèÖÃµ½´®¿ÚÖĞ£©  
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½Ş¸Äºï¿½ï¿½termiosï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½  
 	if (tcsetattr(fd, TCSANOW, &options) != 0)
 	{
 		perror("com set error!\n");

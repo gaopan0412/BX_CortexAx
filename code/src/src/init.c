@@ -5,12 +5,13 @@
 //#include <stdio.h> 
 #include <string.h>
 #include <stdarg.h>
+#include <time.h>
 #include "init.h"
 
 #define LINE_MAX 1024
 
 /*routine log file pointer*/
-FILE* glogfilep = NULL;
+static FILE* glogfilep = NULL;
 
 /*
  * set_default_args
@@ -83,7 +84,7 @@ static RetType parse_initargs(const char* buf, int len, InitArgs_t* arg)
 		/*destination port*/	
 		get_configargs(buf, arg->dstport);
 	
-	} else if (!strncmp(buf, "mode", strlen("mode"))) {
+	} else if (!strncmp(buf, "localsolution", strlen("localsolution"))) {
 		/*solution mode terminal or server*/	
 		get_configargs(buf, arg->mode);
 
@@ -119,7 +120,13 @@ static RetType parse_initargs(const char* buf, int len, InitArgs_t* arg)
 
 }
 
-
+/*
+ * get_initargs
+ * args:
+ * 			in: pcfgfile the init config file pointer 
+ * 			out: arg global config struct all config info
+ * ret : RetType  get config file or not
+ */
 RetType get_initargs(FILE* pcfgfile, InitArgs_t* arg)
 {
 	char buff[LINE_MAX] = {0};
@@ -145,49 +152,24 @@ RetType get_initargs(FILE* pcfgfile, InitArgs_t* arg)
 
 	return SUCCESS;
 }
-
-void close_logfile(void)
+/* 
+ * close routine log file
+ */
+static void close_logfile(void)
 {
 	fclose(glogfilep);
 }
 
-
-/* Debug
- *      LEVEL0: no debug info
- *      LEVEL1: for terminal
- *      LEVEL2: for file
- *      LEVEL3: for terminal and file
- *      LEVEL4: socket communicate
+/* 
+ * get systecm local time
  */
-int Debug(uint8_t level, char* info)
+static int get_systime(void)
 {
-	if (!info) { 
-		printf("Error: no input debug message\r\n");
-		return -1;	
-	}
-
-	switch(level) {
-	 case LEVEL0:
-				/*anything not output*/
-				break;
-	 case LEVEL1:
-				printf("%s", info);
-				break;
-	 case LEVEL2:
-				fprintf(glogfilep, "%s", info);
-				break;
-     case LEVEL3:
-				printf("%s", info);
-				fprintf(glogfilep, "%s", info);
-				break;
-	case LEVEL4:
-				/*TODO:socket debu info*/
-				break;
-	default:
-				printf("ERR: level error\r\n");
-				return -1;
-	}
-	
+	struct tm *t;
+	time_t tt;
+	time(&tt);
+	t = localtime(&tt);
+	Debugs(LOGLEVEL, "%4d/%02d/%02d %02d:%02d:%02d\n", t->tm_year + 1900, t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec);
 	return 0;
 }
 
@@ -203,12 +185,20 @@ int Debugs(uint8_t level, char* fmt, ...)
 {
 	/*need consider this buffer size*/
 	char message[1024] ={0};
+	char timestr[256] = {0};
+
+ 	struct tm *t;
+	time_t tt;
+	time(&tt);
+	t = localtime(&tt);
 
 	if (!fmt) { 
 		printf("Error: no input debug message\r\n");
 		return -1;	
 	}
 
+	/*debug info add time string*/
+	sprintf(timestr, "[%4d-%02d-%02d %02d:%02d:%02d] ", t->tm_year + 1900,  t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec);
 	va_list args;
 	va_start(args, fmt); /*buffer args*/
 	vsprintf(message, fmt, args);
@@ -218,14 +208,14 @@ int Debugs(uint8_t level, char* fmt, ...)
 				/*anything not output*/
 				break;
 	 case LEVEL1:
-				printf("%s", message);
+				printf("%s%s", timestr, message);
 				break;
 	 case LEVEL2:
-				fprintf(glogfilep, "%s", message);
+				fprintf(glogfilep, "%s%s", timestr, message);
 				break;
      case LEVEL3:
-				printf("%s", message);
-				fprintf(glogfilep, "%s", message);
+				printf("%s%s", timestr, message);
+				fprintf(glogfilep, "%s%s", timestr, message);
 				break;
 	case LEVEL4:
 				/*TODO:socket debug info*/
@@ -239,4 +229,3 @@ int Debugs(uint8_t level, char* fmt, ...)
 	va_end(args);
 	return 0;
 }
-
