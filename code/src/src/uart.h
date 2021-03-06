@@ -1,11 +1,15 @@
+/*
+ * uart.h - uart configration interface 
+ */
+
 #include <stdio.h>
-#include <stdlib.h>     /*±ê×¼º¯Êý¿â¶¨Òå*/  
-#include <unistd.h>     /*Unix ±ê×¼º¯Êý¶¨Òå*/  
+#include <stdlib.h>     /*ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½â¶¨ï¿½ï¿½*/  
+#include <unistd.h>     /*Unix ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/  
 #include <sys/types.h>   
 #include <sys/stat.h>    
 #include <fcntl.h>
 #include <termios.h>
-#include <fcntl.h>      /*ÎÄ¼þ¿ØÖÆ¶¨Òå*/  
+#include <fcntl.h>      /*ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½*/  
 #include <sys/select.h>
 
 unsigned char Uart_Init(int fd, int speed, int flow_ctrl, int databits, int stopbits, int parity);

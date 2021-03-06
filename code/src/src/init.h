@@ -6,10 +6,7 @@
 
 /*for file pointer*/
 #include <stdio.h>
-
-#define TRUE 1
-#define FALSE 0
-
+#include "types.h"
 
 /*routine log level*/
 #define LEVEL0   0   /*no log*/
@@ -21,6 +18,11 @@
 /*log level switch*/
 #define LOGLEVEL  LEVEL3
 
+/*local define config*/
+#define __LOCAL_SOL__
+#define __DIFF_NTRIP__
+#define __DIFF_TCP__
+#define __DIFF_UART__   /*means diff data from uart1*/
 
 #define ARGSLEN 32
 /*the function return type*/
@@ -37,17 +39,11 @@ typedef struct _InitArgs_t{
 		char baseport[ARGSLEN]; /*base station port*/
 		char logpath[ARGSLEN];	/*this is routine log*/
 		char rawpath[ARGSLEN];	/*for raw data store*/
-		int dstfd;
-		int basefd;
+		char SN[ARGSLEN];       /*device id*/
+		int rawdatsave_flag;    /*save raw data flags*/
+		//int dstfd;
+		//int basefd;
 }InitArgs_t;
-
-
-typedef unsigned char uint8_t;
-typedef uint8_t u8;
-typedef unsigned short uint16_t;
-typedef uint16_t u16;
-typedef unsigned int uint32_t;
-typedef uint32_t u32;
 
 /*
 typedef volatile  IO;

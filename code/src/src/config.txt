@@ -27,7 +27,8 @@ rawpath=./
 format=nmea
 
 #process log file path
-logpath=./
+logpath=./RAWDATA/
 
-
-
+#device id
+#8char id and 6 passwd
+SN=000000200666666

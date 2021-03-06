@@ -11,29 +11,36 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-
-#define TRUE 1
-#define FALSE 0
+#include "types.h"
+#include "rover.h"
+#include "cmdparse.h"
 
 /*config file path*/
 char pconfig[] = "./config.txt";
 
 /*Destination station handler*/
-void *DstLinkHandler(void *args)
+static void *DstLinkHandler(void *args)
 {
 	DstDataTask(args);
 }
 
+/*Rover station connet*/
+static void *RoverHandler(void *args)
+{
+	RoverDataTask(args);
+}
+
 /*base station connet*/
-void *BaseStationLinkHandler(void *args)
+static void *BaseStationLinkHandler(void *args)
 {
 	BaseDataTask(args);
 }
 
+
 int main(int argc, char *argv[])
 {
 	int ret = 0;
-	pthread_t dstlink, baselink;
+	pthread_t dstlink, baselink, rover;
 	InitArgs_t initargs;
 	FILE *pcfgfile = fopen(pconfig, "r");
 
@@ -49,22 +56,41 @@ int main(int argc, char *argv[])
 
 	get_initargs(pcfgfile, &initargs);
 
-	if (ret = pthread_create(&dstlink, NULL, DstLinkHandler, (void *)&initargs) != 0)
+ if (ret = pthread_create(&rover, NULL, RoverHandler, (void*)&initargs) != 0)
+			printf("Rover thread create failed\r\n");
+
+ if (ret = pthread_create(&dstlink, NULL, DstLinkHandler, (void *)&initargs) != 0)
 		printf("Dstlinkhandle create failed!\r\n");
 
-	/*
-	if (ret = pthread_create(&baselink, NULL, BaseStationLinkHandler, (void*)&initargs) != 0)
-			printf("Basestation link create failed\r\n");
-  */
+#ifdef __LOCAL_SOL__
+ //this thread needn't , solution in server 
+ if (ret = pthread_create(&baselink, NULL, BaseStationLinkHandler, (void*)&initargs) != 0)
+	  printf("Basestation link create failed\r\n");
+#endif
 
 	//TODO:
 	/*TODO: exit process and thread monitor*/
 	while (TRUE)
 	{
-		char a;
-		scanf("%c", &a);
-		if (a == 'c')
-			exit(0);
+		char cmd[] = "\0";
+		scanf("%s", cmd);
+		if (strlen(cmd)) 
+		{
+			if (strstr(cmd, "quit"))
+			{	
+				Debugs(LOGLEVEL, "get quit cmd and exit process\n");
+				exit(0);
+			}
+			else 
+			{
+				local_cmd_process(cmd);
+			}
+		}
+
+		Debugs(LOGLEVEL,"SN:%s\n", initargs.SN);
+		Debugs(LOGLEVEL,"RAWDATA:%s\n", initargs.rawpath);
+		//TODO: others thread monitor
+		sleep(1);
 	};
 
 	fclose(pcfgfile);

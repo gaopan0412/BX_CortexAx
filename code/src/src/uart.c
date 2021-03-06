@@ -1,5 +1,5 @@
 #include "uart.h"
-#include "init.h"
+#include "types.h"
 
 /*
 Func: Uart_Init
@@ -10,7 +10,7 @@ Input:
 		flow_ctrl:		����������
 		 databits:		����λ   ȡֵΪ 7 ����8
 		 stopbits:		ֹͣλ   ȡֵΪ 1 ����2
-		   parity:		Ч������ ȡֵΪN,E,O,,S
+		   parity:		Ч������ ȡֵΪN,Els,O,,S
 Others:
 Author: 
 */

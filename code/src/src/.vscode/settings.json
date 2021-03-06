@@ -1,6 +1,11 @@
 {
   "files.associations": {
     "pthread.h": "c",
-    "fcntl.h": "c"
+    "fcntl.h": "c",
+    "uart.h": "c",
+    "cmdparse.h": "c",
+    "*.ipp": "c",
+    "*.tcc": "c",
+    "fstream": "c"
   }
 }

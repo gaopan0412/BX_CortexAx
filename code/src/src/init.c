@@ -7,6 +7,7 @@
 #include <stdarg.h>
 #include <time.h>
 #include "init.h"
+#include "types.h"
 
 #define LINE_MAX 1024
 
@@ -112,7 +113,10 @@ static RetType parse_initargs(const char* buf, int len, InitArgs_t* arg)
 		/*the raw data store path*/
 		get_configargs(buf, arg->rawpath);
 
+	} else if (!strncmp(buf, "SN", strlen("SN"))){
+		get_configargs(buf, arg->SN);
 	} else {
+
 		/*TODO:Extern paramters*/
 	}
 
@@ -227,5 +231,28 @@ int Debugs(uint8_t level, char* fmt, ...)
 		
 	fflush(glogfilep);
 	va_end(args);
+	return 0;
+}
+
+/*
+ * config_info_parse(InitArgs_t* args)
+ * IN : args
+ * OUT: args
+ * brif:  convert string init arguments to int
+ * ret : false get unormal paramters
+ * 				true get real paramtes
+ */
+
+static int  config_info_parse(InitArgs_t* args)
+{
+	if (!strcmp(args->save, "yes") || !strcmp(args->save, "YES"))
+	{
+			args->rawdatsave_flag = TRUE;
+	} else 
+	{
+			args->rawdatsave_flag = FALSE;
+	}
+
+	//TODO: others arguments convert
 	return 0;
 }

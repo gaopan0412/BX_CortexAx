@@ -6,7 +6,7 @@ cc = gcc
 
 
 all:main
-main:  main.c  init.c client.c
+main:  main.c  init.c client.c rover.c cmdparse.c uart.c
 	$(cc)  -g -o $@ $^ -lpthread
 clean: 
 	rm -rf main  *.o
