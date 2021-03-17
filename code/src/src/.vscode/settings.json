@@ -6,6 +6,7 @@
     "cmdparse.h": "c",
     "*.ipp": "c",
     "*.tcc": "c",
-    "fstream": "c"
+    "fstream": "c",
+    "types.h": "c"
   }
 }

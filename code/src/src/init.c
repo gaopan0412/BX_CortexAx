@@ -6,6 +6,9 @@
 #include <string.h>
 #include <stdarg.h>
 #include <time.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <errno.h>
 #include "init.h"
 #include "types.h"
 
@@ -97,7 +100,7 @@ static RetType parse_initargs(const char* buf, int len, InitArgs_t* arg)
 		/*base station port*/
 		get_configargs(buf, arg->baseport);
 
-	} else if (!strncmp(buf, "save", strlen("save"))) {
+	} else if (!strncmp(buf, "saverawdata", strlen("saverawdata"))) {
 		/*save raw data or not*/
 		get_configargs(buf, arg->save);
 	
@@ -122,6 +125,50 @@ static RetType parse_initargs(const char* buf, int len, InitArgs_t* arg)
 
 	return SUCCESS;
 
+}
+
+/*
+ * config_info_parse(InitArgs_t* args)
+ * IN : args
+ * OUT: args
+ * brif:  convert string init arguments to int
+ * ret : false get unormal paramters
+ * 				true get real paramtes
+ */
+
+static int  config_info_parse(InitArgs_t* args)
+{
+	if (!strcmp(args->save, "yes") || !strcmp(args->save, "YES"))
+	{
+		char timestr[256] = {0};
+
+ 		struct tm *t;
+		time_t tt;
+		time(&tt);
+		t = localtime(&tt);
+
+		/*debug info add time string*/
+		int len = sprintf(timestr, "%s", args->rawpath);
+		len = sprintf(&timestr[len], "%4d-%02d-%02d_%02d_%02d_%02d", t->tm_year + 1900,  t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec);
+
+		if (!mkdir(timestr, 0666))
+		{
+			Debugs(LOGLEVEL, "mkdir RAW DATA directory success!");
+			sprintf(timestr+len, "/");
+			memcpy(args->rawpath, timestr, strlen(timestr));
+		} else {
+			Debugs(LOGLEVEL, "errno:\t%s\n",strerror(errno));
+			return ERR;
+		}
+
+		args->rawdatsave_flag = TRUE;
+	} else 
+	{
+			args->rawdatsave_flag = FALSE;
+	}
+
+	//TODO: others arguments convert
+	return 0;
 }
 
 /*
@@ -154,8 +201,12 @@ RetType get_initargs(FILE* pcfgfile, InitArgs_t* arg)
 		parse_initargs(buff, strlen(buff), arg);
 	}
 
+	//convter config string to int flag
+	config_info_parse(arg);
+
 	return SUCCESS;
 }
+
 /* 
  * close routine log file
  */
@@ -231,28 +282,5 @@ int Debugs(uint8_t level, char* fmt, ...)
 		
 	fflush(glogfilep);
 	va_end(args);
-	return 0;
-}
-
-/*
- * config_info_parse(InitArgs_t* args)
- * IN : args
- * OUT: args
- * brif:  convert string init arguments to int
- * ret : false get unormal paramters
- * 				true get real paramtes
- */
-
-static int  config_info_parse(InitArgs_t* args)
-{
-	if (!strcmp(args->save, "yes") || !strcmp(args->save, "YES"))
-	{
-			args->rawdatsave_flag = TRUE;
-	} else 
-	{
-			args->rawdatsave_flag = FALSE;
-	}
-
-	//TODO: others arguments convert
 	return 0;
 }

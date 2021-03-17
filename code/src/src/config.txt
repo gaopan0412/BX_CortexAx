@@ -19,15 +19,15 @@ baseip=182.92.241.63
 baseport=8499
 
 #save raw data
-saverawdata=not
+saverawdata=yes
 #for raw data store
-rawpath=./
+rawpath=./RAWDATA/
 
 #the solution format
 format=nmea
 
 #process log file path
-logpath=./RAWDATA/
+logpath=./
 
 #device id
 #8char id and 6 passwd

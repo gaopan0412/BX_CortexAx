@@ -1,10 +1,15 @@
-[2021-03-05 17:43:47] open rover uart failed!
-[2021-03-05 17:43:47] destination port:8900
-[2021-03-05 17:43:47] uart open failed!
-[2021-03-05 17:43:47] destination malloc success!
-[2021-03-05 17:43:47] destination creat socket success!
-[2021-03-05 17:43:47] basestion port:8499
-[2021-03-05 17:43:47] basestion malloc success!
-[2021-03-05 17:43:47] basestion creat socket success!
-[2021-03-05 17:43:47] basestion open server success! fd:5
-[2021-03-05 17:43:47] destination connect error
+[2021-03-08 15:40:09] ./RAWDATA/2021-03-08_15_40_09
+[2021-03-08 15:40:09] mkdir RAW DATA directory success![2021-03-08 15:40:09] ./RAWDATA/2021-03-0/
+[2021-03-08 15:40:09] lenth:59 func:RoverDataTask ./RAWDATA/2021-03-0/ yes
+[2021-03-08 15:40:09] destination port:8900
+[2021-03-08 15:40:09] open rover /dev/ttyS3 uart failed!
+[2021-03-08 15:40:09] basestion port:8499
+[2021-03-08 15:40:09] uart open failed!
+[2021-03-08 15:40:09] basestion malloc success!
+[2021-03-08 15:40:09] basestion creat socket success!
+[2021-03-08 15:40:09] destination malloc success!
+[2021-03-08 15:40:09] destination creat socket success!
+[2021-03-08 15:40:09] basestion open server success! fd:6
+[2021-03-08 15:40:09] destination open server success! fd:5
+[2021-03-08 15:40:10] destination len:15 this is sever
+[2021-03-08 15:40:11] destination len:15 this is sever

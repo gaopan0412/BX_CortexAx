@@ -9,7 +9,6 @@
 #include "init.h"
 
 #define RAWDATALEN (4096)
-
 static char gnssport[] = "/dev/ttyS3";
 
 /* rover_init
@@ -24,7 +23,7 @@ static int rover_init(void)
   int ret = 0;
   if (rover_data_fd < 0)
   {
-    Debugs(LOGLEVEL, "open rover uart failed!\n");
+    Debugs(LOGLEVEL, "open rover /dev/ttyS3 uart failed!\n");
     return ERR;
   }
   else
@@ -56,6 +55,9 @@ void *RoverDataTask(void *args)
   pthread_detach(pthread_self());
   int rawdatafd = 0;
 
+
+  Debugs(LOGLEVEL,"lenth:%d func:%s %s %s\n", __LINE__, __func__, init_args->rawpath, init_args->save);
+
   int roverfd = rover_init();
   if (roverfd < 0)
   {
@@ -72,13 +74,16 @@ void *RoverDataTask(void *args)
   {
     memset(rawdatabuf, 0, sizeof(uint8_t)*RAWDATALEN);
   }
+  
+  Debugs(LOGLEVEL, "flag:%d\n", init_args->rawdatsave_flag);
 
   if (init_args->rawdatsave_flag)
   {
-
-
+    //Debugs(LOGLEVEL, "[raw data]raw rover data:%s\n", init_args->rawpath);
+    //TODO:open raw data file
   }
 
+ 
   while (TRUE)
   {
     long lenth = read(roverfd,rawdatabuf, RAWDATALEN);
@@ -98,3 +103,4 @@ void *RoverDataTask(void *args)
 
   pthread_exit(args);
 }
+
